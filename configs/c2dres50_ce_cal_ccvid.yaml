@@ -1,0 +1,57 @@
+AUG:
+  RE_PROB: 0.0
+  SAMPLING_STRIDE: 4
+  SEQ_LEN: 8
+  TEMPORAL_SAMPLING_MODE: tsn # stride
+DATA:
+#  DATASET: ccvid
+#  DENSE_SAMPLING: True
+#  HEIGHT: 224
+#  NUM_INSTANCES: 4
+#  NUM_WORKERS: 12
+  ROOT: /research/cvlshare/cvl-suyiyan1/
+#  SAMPLING_STEP: 64
+#  TEST_BATCH: 32
+  TRAIN_BATCH: 48
+  WIDTH: 224
+EVAL_MODE: False
+#GPU: 0,1,2,3,4,5,6,7,
+LOSS:
+  CAL: cal
+  CLA_LOSS: cosface
+#  CLA_M: 0.0
+#  CLA_S: 16.0
+#  CLOTHES_CLA_LOSS: cosface
+#  EPSILON: 0.1
+#  MOMENTUM: 0.0
+#  PAIR_LOSS: triplet
+#  PAIR_LOSS_WEIGHT: 0.0
+#  PAIR_M: 0.3
+#  PAIR_S: 16.0
+MODEL:
+#  AP3D:
+#    CONTRACTIVE_ATT: True
+#    TEMPERATURE: 4
+#  FEATURE_DIM: 2048
+  NAME: c2dres50
+#  RES4_STRIDE: 1
+#  RESUME:
+#OUTPUT: logs/
+#SEED: 1
+TAG: c2dres50-ce-cal-batchsize_48x8_20250717
+TEST:
+  EVAL_STEP: 5
+  START_EVAL: 0
+TRAIN:
+  AMP: False
+  LR_SCHEDULER:
+    DECAY_RATE: 0.1
+    STEPSIZE: [70, 140]
+  MAX_EPOCH: 200
+  OPTIMIZER:
+    LR: 0.00035
+    NAME: adam
+    WEIGHT_DECAY: 0.0005
+  START_EPOCH: 0
+  START_EPOCH_ADV: 200
+  START_EPOCH_CC: 200
