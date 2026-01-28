@@ -1,4 +1,8 @@
-import data.img_transforms as T
+try:
+    import data.img_transforms as T
+    HAS_IMG_T = True
+except Exception:
+    HAS_IMG_T = False
 import data.spatial_transforms as ST
 import data.temporal_transforms as TT
 from data.dataloader import DataLoaderX
@@ -141,3 +145,19 @@ def build_dataloader(config):
                                       pin_memory=True, drop_last=False, shuffle=False)
 
             return trainloader, queryloader, galleryloader, dataset, train_sampler
+
+def build_img_transforms(config):
+    if not HAS_IMG_T:
+        raise RuntimeError("Missing data/img_transforms.py for image datasets")
+    transform_train = T.Compose([
+        T.Resize((config.DATA.HEIGHT, config.DATA.WIDTH)),
+        T.RandomHorizontalFlip(),
+        T.ToTensor(),
+        T.Normalize([0.48145466, 0.4578275, 0.40821073], [0.26862954, 0.26130258, 0.27577711]),
+    ])
+    transform_test = T.Compose([
+        T.Resize((config.DATA.HEIGHT, config.DATA.WIDTH)),
+        T.ToTensor(),
+        T.Normalize([0.48145466, 0.4578275, 0.40821073], [0.26862954, 0.26130258, 0.27577711]),
+    ])
+    return transform_train, transform_test
